@@ -1,6 +1,8 @@
 #library dependencies
 
 from keras.layers import Conv2D,Input
+from keras.preprocessing.image import load_img,img_to_array
+from keras.applications.inception_resnet_v2 import InceptionResNetV2
 
 
 # encoder 
@@ -16,4 +18,6 @@ seventh_conv=Conv2D(filters=512,kernel_size=(3,3),padding='same',data_format='ch
 eighth_conv=Conv2D(filters=256,kernel_size=(3,3),padding='same',data_format='channels_last',strides=(1,1),name='encoder_8',activation='tanh')(seventh_conv)
 
 #Feature extractor 
+
+inception_model=InceptionResNetV2(weights='imagenet',include_top=False,input_shape=(229,229,3))
 
