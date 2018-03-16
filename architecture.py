@@ -1,8 +1,9 @@
 #library dependencies
 
-from keras.layers import Conv2D,Input
+from keras.layers import Conv2D,Input,Dense,Flatten
 from keras.preprocessing.image import load_img,img_to_array
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
+from keras.models import Model
 
 
 # encoder 
@@ -20,4 +21,9 @@ eighth_conv=Conv2D(filters=256,kernel_size=(3,3),padding='same',data_format='cha
 #Feature extractor 
 
 inception_model=InceptionResNetV2(weights='imagenet',include_top=False,input_shape=(229,229,3))
+extract_process_1=Flatten(name='flatten_at_extract')(inception_model.outputs)
+extractor_output=Dense(1001,name='feature_extractor')(extract_process_1)
+my_feature_extractor=Model(inputs=inception_model.inputs,outputs=extractor_output)
+
+#Fusion 
 
